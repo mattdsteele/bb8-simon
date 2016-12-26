@@ -6,13 +6,7 @@
     <link rel="stylesheet" href="styles.css"></link>
   </head>
   <body>
-    <h1>BB8 Simon</h1>
-    <div class="buttons">
-      <div class="red button"></div>
-      <div class="blue button"></div>
-      <div class="yellow button"></div>
-      <div class="green button"></div>
-    </div>
+    <bb8-buttons></bb8-buttons>
 
     <div class="output">
       <div class="current">
@@ -20,9 +14,11 @@
       </div>
     </div>
 
+    <script src="https://unpkg.com/skatejs-web-components/dist/index-with-deps.min.js"></script>
     <script src="https://unpkg.com/howler@2.0.2/dist/howler.js"></script>
     <script src="https://unpkg.com/@reactivex/rxjs@5.0.2/dist/global/Rx.js"></script>
     <script src="https://unpkg.com/lodash@4.17.3/lodash.js"></script>
-    <script src="simon.js?a"></script>
+    <script src="bb8-buttons.js"></script>
+    <script src="simon.js?b"></script>
   </body>
 </html>
