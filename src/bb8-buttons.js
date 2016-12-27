@@ -1,16 +1,38 @@
-customElements.define('bb8-buttons', class extends HTMLElement {
+import 'skatejs-web-components';
+import { Component, h } from 'skatejs';
+
+class BB8Buttons extends Component {
   connectedCallback() {
-    const buttons = `<div class="buttons">
-        <div class="red button"></div>
+    super.connectedCallback();
+    console.log('okay');
+    /*
+    button('.red', 'Red');
+    button('.green', 'Green');
+    button('.blue', 'Blue');
+    button('.yellow', 'Yellow');
+    */
+  }
+
+  button (selector, color) {
+    document.querySelector(selector).addEventListener('click', () => {
+      this.push(color);
+    });
+  }
+
+  click(color) {
+    console.log(color);
+  }
+
+  renderCallback() {
+    console.log('rendering');
+    return (<div class="buttons">
+        <div class="red button" onClick={this.click('red')}></div>
         <div class="blue button"></div>
         <div class="yellow button"></div>
         <div class="green button"></div>
-        <img class="bb8-logo button" src="img/bb8.svg">
-      </div>`;
+        <img class="bb8-logo button" src="img/bb8.svg"></img>
+      </div>);
+  }
+}
 
-    this.innerHTML = buttons;
-  }
-  renderCallback() {
-    return skate.h('div', { class: 'buttons' });
-  }
-});
+customElements.define('bb8-buttons', BB8Buttons);

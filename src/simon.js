@@ -9,11 +9,6 @@ class BB8Simon {
       e.target.classList.add('hidden');
       this.addBeep();
     });
-    const button = (selector, color) => {
-      document.querySelector(selector).addEventListener('click', () => {
-        this.push(color);
-      });
-    };
 
     this.audios = {
       red: new Howl({ src: ['sfx/bb8-28.mp3'] }),
@@ -22,10 +17,6 @@ class BB8Simon {
       yellow: new Howl({ src: ['sfx/bb2-02.mp3'] })
     };
 
-    button('.red', 'Red');
-    button('.green', 'Green');
-    button('.blue', 'Blue');
-    button('.yellow', 'Yellow');
   }
 
   push(color) {
