@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel src -d lib",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "glamor": "^2.20.19",
     "skatejs": "^4.4.2",
     "skatejs-web-components": "^5.0.1"
   },

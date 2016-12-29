@@ -6,65 +6,18 @@ body {
   margin: 0;
 }
 
-.buttons {
-  position: relative;
-  width: 100vw;
-  height: 100vw;
-}
-
-.button {
-  width: calc(100%/3);
-  height: calc(100%/3);
-}
-
 .red {
   background: red;
 }
-
-.red.button {
-  background: red;
-  position: absolute;
-  left: calc(100%/3);
-  top: 0;
-}
-
 .blue {
   background: blue;
 }
-.blue.button {
-  background: blue;
-  position: absolute;
-  left: 0;
-  top: calc(100%/3);
-}
-
 .green {
   background: green;
 }
-.green.button {
-  background: green;
-  position: absolute;
-  bottom: 0;
-  left: calc(100%/3);
-}
-
 .yellow {
   background: yellow;
 }
-
-.bb8-logo {
-  position: absolute;
-  left: calc(100%/3);
-  top: calc(100%/3);
-}
-
-.yellow.button {
-  background: yellow;
-  position: absolute;
-  top: calc(100%/3);
-  right: 0;
-}
-
 .output {
   padding-top: 3em;
   display: flex;
