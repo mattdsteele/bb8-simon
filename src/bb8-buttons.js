@@ -24,14 +24,20 @@ class BB8Buttons extends Component {
   }
 
   renderCallback() {
-    console.log('rendering');
+    const clk = (col) => () => this.click(col);
     return (<div class="buttons">
-        <div class="red button" onClick={this.click('red')}></div>
-        <div class="blue button"></div>
-        <div class="yellow button"></div>
-        <div class="green button"></div>
+        <div class="red button" onclick={clk('red')}></div>
+        <div class="blue button" onclick={clk('blue')}></div>
+        <div class="yellow button" onclick={clk('yellow')}></div>
+        <div class="green button" onclick={clk('green')}></div>
         <img class="bb8-logo button" src="img/bb8.svg"></img>
       </div>);
+  }
+
+  renderedCallback() {
+    console.log('rendered');
+    const red = this.querySelector('.red');
+    console.log(this);
   }
 }
 
