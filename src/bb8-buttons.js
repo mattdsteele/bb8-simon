@@ -1,6 +1,6 @@
 import 'skatejs-web-components';
-import { Component, h } from 'skatejs';
-import { style, attribsFor, cssFor, merge } from 'glamor';
+import { Component, h, emit } from 'skatejs';
+import { style, cssFor, merge } from 'glamor';
 
 const buttonWrapper = style({
   position: 'relative',
@@ -45,7 +45,6 @@ const bb8Logo = merge(buttonStyle, style({
 class BB8Buttons extends Component {
   connectedCallback() {
     super.connectedCallback();
-    console.log('okay');
   }
 
   button (selector, color) {
@@ -55,7 +54,7 @@ class BB8Buttons extends Component {
   }
 
   click(color) {
-    console.log(color);
+    emit(this, 'button-clicked', { detail: { color }});
   }
 
   renderCallback() {
@@ -72,9 +71,6 @@ class BB8Buttons extends Component {
   }
 
   renderedCallback() {
-    console.log('rendered');
-    const red = this.querySelector('.red');
-    console.log(this);
   }
 }
 

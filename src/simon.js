@@ -1,8 +1,10 @@
+import { Howl } from 'howler';
+
 class BB8Simon {
   constructor() {
     this.beeps = [];
     this.remainingBeeps = [];
-    this.colors = ['Red', 'Blue', 'Yellow', 'Green'];
+    this.colors = ['red', 'blue', 'yellow', 'green'];
     this.printTime = 450;
     this.delay = 100;
     document.querySelector('.start').addEventListener('click', e => {
@@ -16,6 +18,11 @@ class BB8Simon {
       blue: new Howl({ src: ['sfx/bb8-16.mp3'] }),
       yellow: new Howl({ src: ['sfx/bb2-02.mp3'] })
     };
+
+    document.addEventListener('button-clicked', ({ detail }) => {
+      const { color } = detail;
+      this.push(color);
+    });
 
   }
 
@@ -62,19 +69,22 @@ class BB8Simon {
   }
 
   print(e) {
-    const sfx = document.querySelector('.sfx-red');
-    const { classList } = document.querySelector('.current');
-    classList.remove('red', 'green', 'blue', 'yellow');
+    //const { classList } = document.querySelector('.current');
+    //classList.remove('red', 'green', 'blue', 'yellow');
+    const screenOutput = document.querySelector('screen-output');
     if (this.beeps[e]) {
-      const color = this.beeps[e].toLowerCase();
+      const color = this.beeps[e];
       this.audios[color].play();
-      classList.add(color);
+      //classList.add(color);
+      screenOutput.color = color;
     }
   }
 
   off() {
-    const { classList } = document.querySelector('.current');
-    classList.remove('red', 'green', 'blue', 'yellow');
+    const screenOutput = document.querySelector('screen-output');
+    screenOutput.color = '';
+    //const { classList } = document.querySelector('.current');
+    //classList.remove('red', 'green', 'blue', 'yellow');
   }
 }
 

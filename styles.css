@@ -6,24 +6,6 @@ body {
   margin: 0;
 }
 
-.red {
-  background: red;
-}
-.blue {
-  background: blue;
-}
-.green {
-  background: green;
-}
-.yellow {
-  background: yellow;
-}
-.output {
-  padding-top: 3em;
-  display: flex;
-  justify-content: center;
-}
-
 .hidden {
   display: none !important;
 }
@@ -34,10 +16,4 @@ body {
   height: 100%;
   justify-content: center;
   align-items: center;
-}
-
-.current {
-  width: 50vw;
-  height: 50vw;
-  border: 1px solid black;
 }
