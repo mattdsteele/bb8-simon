@@ -7,11 +7,6 @@ class BB8Simon {
     this.colors = ['red', 'blue', 'yellow', 'green'];
     this.printTime = 450;
     this.delay = 100;
-    document.querySelector('.start').addEventListener('click', e => {
-      e.target.classList.add('hidden');
-      this.addBeep();
-    });
-
     this.audios = {
       red: new Howl({ src: ['sfx/bb8-28.mp3'] }),
       green:new Howl({ src: ['sfx/bb8-06.mp3'] }),
@@ -23,6 +18,14 @@ class BB8Simon {
       const { color } = detail;
       this.push(color);
     });
+
+    document.addEventListener('bb8-clicked', () => {
+      document.querySelector('sphero-bb8').connect()
+      .then(_ => {
+        this.addBeep();
+      });
+    }, { once: true });
+
 
   }
 
@@ -40,12 +43,15 @@ class BB8Simon {
   }
 
   lose() {
-    console.log('YOU LOSE');
+    const score = document.querySelector('simon-score');
+    score.playing = false;
   }
 
   addBeep() {
+    const score = document.querySelector('simon-score');
     this.beeps.push(_.sample(this.colors));
     this.remainingBeeps = this.beeps;
+    score.currentScore = [].concat(this.beeps);
     this.printBeeps();
   }
 
@@ -68,23 +74,32 @@ class BB8Simon {
     });
   }
 
+  cssColor(color) {
+    const colors = {
+      red: { red: 255, green: 0, blue: 0 },
+      green: { red: 0, green: 255, blue: 0 },
+      blue: { red: 0, green: 0, blue: 255 },
+      yellow: { red: 255, green: 255, blue: 0 },
+    };
+    return colors[color];
+  }
+
   print(e) {
-    //const { classList } = document.querySelector('.current');
-    //classList.remove('red', 'green', 'blue', 'yellow');
     const screenOutput = document.querySelector('screen-output');
+    const sphero = document.querySelector('sphero-bb8');
     if (this.beeps[e]) {
       const color = this.beeps[e];
       this.audios[color].play();
-      //classList.add(color);
-      screenOutput.color = color;
+      //screenOutput.color = color;
+      sphero.color = this.cssColor(color);
     }
   }
 
   off() {
     const screenOutput = document.querySelector('screen-output');
-    screenOutput.color = '';
-    //const { classList } = document.querySelector('.current');
-    //classList.remove('red', 'green', 'blue', 'yellow');
+    const sphero = document.querySelector('sphero-bb8');
+    sphero.color = {};
+    // screenOutput.color = '';
   }
 }
 

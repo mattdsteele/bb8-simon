@@ -57,6 +57,10 @@ class BB8Buttons extends Component {
     emit(this, 'button-clicked', { detail: { color }});
   }
 
+  bb8Click() {
+    emit(this, 'bb8-clicked');
+  }
+
   renderCallback() {
     const clk = (col) => () => this.click(col);
     return (
@@ -66,7 +70,7 @@ class BB8Buttons extends Component {
   <div onclick={clk('blue')} {...blueButton}></div>
   <div onclick={clk('yellow')} {...yellowButton}></div>
   <div onclick={clk('green')} {...greenButton}></div>
-  <img src="img/bb8.svg" {...bb8Logo}></img>
+  <img src="img/bb8.svg" {...bb8Logo} onclick={this.bb8Click}></img>
 </div>);
   }
 
