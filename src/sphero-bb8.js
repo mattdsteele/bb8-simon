@@ -46,14 +46,14 @@ class SpheroBB8 extends Component {
 		array.set(packets, 0);
 		array.set(data, packets.byteLength);
 		array.set(checksum, packets.byteLength + data.byteLength);
-		console.log('Sending', array);
+		console.debug('Sending', array);
 		return this.controlCharacteristic.writeValue(array).then(() => {
-			console.log('Command write done.');
+			console.debug('Command write done.');
 		});
 	}
 
   // Code based on https://github.com/WebBluetoothCG/demos/blob/gh-pages/bluetooth-toy-bb8/index.html
-	connect() {
+	async connect() {
     this.state = {
       aim: false,
       busy: false,
@@ -74,80 +74,50 @@ class SpheroBB8 extends Component {
 		const antiDosCharacteristicId = '22bb746f-2bbd-7554-2d6f-726568705327';
 		const txPowerCharacteristicId = '22bb746f-2bb2-7554-2d6f-726568705327';
 		const wakeCpuCharacteristicId = '22bb746f-2bbf-7554-2d6f-726568705327';
-		return navigator.bluetooth.requestDevice({
+		const device = await navigator.bluetooth.requestDevice({
 			'filters': [{ 'namePrefix': ['BB'] }],
 			'optionalServices': [
 				serviceA,
 				serviceB
 			]
-		})
-		.then(device => {
-			console.log('Got device: ' + device.name);
-			return device.gatt.connect();
-		})
-		.then(server => {
-			console.log('Got server');
-			this.gattServer = server;
-			return this.gattServer.getPrimaryService(serviceA);
-		})
-		.then(service => {
-			console.log('Got service');
-			// Developer mode sequence is sent to the radio service
-			this.radioService = service;
-			// Get Anti DOS characteristic
-			return this.radioService.getCharacteristic(antiDosCharacteristicId);
-		})
-		.then(characteristic => {
-			console.log('> Found Anti DOS characteristic');
-			// Send special string
-			let bytes = new Uint8Array('011i3'.split('').map(c => c.charCodeAt()));
-			return characteristic.writeValue(bytes).then(() => {
-				console.log('Anti DOS write done.');
-			})
-		})
-		.then(() => {
-			// Get TX Power characteristic
-			return this.radioService.getCharacteristic(txPowerCharacteristicId);
-		})
-		.then(characteristic => {
-			console.log('> Found TX Power characteristic');
-			const array = new Uint8Array([0x07]);
-			return characteristic.writeValue(array).then(() => {
-				console.log('TX Power write done.');
-			})
-		})
-		.then(() => {
-			// Get Wake CPU characteristic
-			return this.radioService.getCharacteristic(wakeCpuCharacteristicId);
-		})
-		.then(characteristic => {
-			console.log('> Found Wake CPU characteristic');
-			const array = new Uint8Array([0x01]);
-			return characteristic.writeValue(array).then(() => {
-				console.log('Wake CPU write done.');
-			})
-		})
-		.then(() => {
-			// Get robot service
-			return this.gattServer.getPrimaryService(serviceB)
-		})
-		.then(service => {
-			// Commands are sent to the robot service
-			this.robotService = service;
-			// Get Control characteristic
-			return this.robotService.getCharacteristic(controlCharacteristicId);
-		})
-		.then(characteristic => {
-			console.log('> Found Control characteristic');
-			// Cache the characteristic
-			this.controlCharacteristic = characteristic;
-		})
-		.catch(exception => {
-			console.log(exception);
 		});
-  }
 
-  updatedCallback() {
+    try {
+      const server = await device.gatt.connect();
+      this.gattServer = server;
+      const radioService = await this.gattServer.getPrimaryService(serviceA);
+      this.radioService = radioService;
+      // Get Anti DOS characteristic
+      const characteristic = await this.radioService.getCharacteristic(antiDosCharacteristicId);
+      // Send special string
+      const  bytes = new Uint8Array('011i3'.split('').map(c => c.charCodeAt()));
+      await characteristic.writeValue(bytes);
+      console.log('Anti DOS write done.');
+      // Get TX Power characteristic
+      const txPowerChar = await this.radioService.getCharacteristic(txPowerCharacteristicId);
+      console.log('> Found TX Power characteristic');
+      const array = new Uint8Array([0x07]);
+      await txPowerChar.writeValue(array);
+      console.log('TX Power write done.');
+      // Get Wake CPU characteristic
+      const wakeCpuChar = await this.radioService.getCharacteristic(wakeCpuCharacteristicId);
+      console.log('> Found Wake CPU characteristic');
+      const wakeCpuArr = new Uint8Array([0x01]);
+      await wakeCpuChar.writeValue(wakeCpuArr);
+      console.log('Wake CPU write done.');
+      // Get robot service
+      const robotService = await this.gattServer.getPrimaryService(serviceB)
+      // Commands are sent to the robot service
+      this.robotService = robotService;
+      // Get Control characteristic
+      const controlChar = await this.robotService.getCharacteristic(controlCharacteristicId);
+      console.log('> Found Control characteristic');
+      // Cache the characteristic
+      this.controlCharacteristic = controlChar;
+    } catch(exception) {
+			console.log(exception);
+      throw exception;
+    }
   }
 }
 

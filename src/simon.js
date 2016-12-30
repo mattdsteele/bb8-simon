@@ -20,11 +20,9 @@ class BB8Simon {
       this.push(color);
     });
 
-    document.addEventListener('bb8-clicked', () => {
-      document.querySelector('sphero-bb8').connect()
-      .then(_ => {
-        this.addBeep();
-      });
+    document.addEventListener('bb8-clicked', async () => {
+      await document.querySelector('sphero-bb8').connect();
+      this.addBeep();
     }, { once: true });
 
 
