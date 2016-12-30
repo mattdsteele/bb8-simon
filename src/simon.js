@@ -8,6 +8,7 @@ class BB8Simon {
     this.printTime = 450;
     this.delay = 100;
     this.audios = {
+      lose: new Howl({ src: ['sfx/lose.mp3'] }),
       red: new Howl({ src: ['sfx/bb8-28.mp3'] }),
       green:new Howl({ src: ['sfx/bb8-06.mp3'] }),
       blue: new Howl({ src: ['sfx/bb8-16.mp3'] }),
@@ -45,6 +46,7 @@ class BB8Simon {
   lose() {
     const score = document.querySelector('simon-score');
     score.playing = false;
+    this.audios.lose.play();
   }
 
   addBeep() {
