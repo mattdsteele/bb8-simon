@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@reactivex/rxjs": "^5.2.0",
     "glamor": "^2.20.19",
     "howler": "^2.0.2",
+    "lodash": "^4.17.4",
     "skatejs": "^4.4.2",
     "skatejs-web-components": "^5.0.1"
   },

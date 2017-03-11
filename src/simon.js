@@ -1,4 +1,6 @@
 import { Howl } from 'howler';
+import Rx from '@reactivex/rxjs';
+import _ from 'lodash';
 
 class BB8Simon {
   constructor() {
